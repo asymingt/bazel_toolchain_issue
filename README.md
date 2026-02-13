@@ -5,3 +5,28 @@ git clone --recurse-submodules https://github.com/asymingt/bazel_toolchain_issue
 cd bazel_toolchain_issue
 bazel build @mimick//...
 ```
+
+Look at [MODULE.bazel](MODULE.bazel) and you will see OPTION 1 (toolchains_llvm_boostrapped) and OPTION 2 (toolchains_llvm). You can comment out one and then use the other to switch between working and not working.
+
+```
+###########################
+# OPTION 1: DOES NOT WORK
+# toolchain = use_extension("@toolchains_llvm_bootstrapped//extensions:toolchain.bzl", "toolchain")
+# toolchain.exec(
+#     arch = "x86_64",
+#     os = "linux",
+# )
+# toolchain.target(
+#     arch = "x86_64",
+#     os = "linux",
+# )
+# use_repo(toolchain, "llvm_toolchain")
+############################
+
+############################
+# OPTION 2 : WORKS
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+llvm.toolchain(llvm_version = "20.1.7")
+use_repo(llvm, "llvm_toolchain")
+############################
+```
