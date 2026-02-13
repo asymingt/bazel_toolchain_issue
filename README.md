@@ -3,7 +3,7 @@ This repo simply illustrates an issue I'm having with Bazel 9.0.0 and the `toolc
 ```bash
 git clone --recurse-submodules https://github.com/asymingt/bazel_toolchain_issue.git
 cd bazel_toolchain_issue
-bazel build @mimick//...
+bazel test @mimick//...
 ```
 
 Look at [MODULE.bazel](MODULE.bazel) and you will see OPTION 1 (toolchains_llvm_boostrapped) and OPTION 2 (toolchains_llvm). You can comment out one and then use the other to switch between working and not working.
