@@ -11,22 +11,26 @@ Look at [MODULE.bazel](MODULE.bazel) and you will see OPTION 1 (toolchains_llvm_
 ```
 ###########################
 # OPTION 1: DOES NOT WORK
-# toolchain = use_extension("@toolchains_llvm_bootstrapped//extensions:toolchain.bzl", "toolchain")
-# toolchain.exec(
-#     arch = "x86_64",
-#     os = "linux",
-# )
-# toolchain.target(
-#     arch = "x86_64",
-#     os = "linux",
-# )
-# use_repo(toolchain, "llvm_toolchain")
+toolchain = use_extension("@toolchains_llvm_bootstrapped//extensions:toolchain.bzl", "toolchain")
+toolchain.exec(
+    arch = "x86_64",
+    os = "linux",
+)
+toolchain.target(
+    arch = "x86_64",
+    os = "linux",
+)
+use_repo(toolchain, "llvm_toolchains")
+
+register_toolchains("@llvm_toolchains//:all")
 ############################
 
 ############################
 # OPTION 2 : WORKS
-llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
-llvm.toolchain(llvm_version = "20.1.7")
-use_repo(llvm, "llvm_toolchain")
+# llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+# llvm.toolchain(llvm_version = "20.1.7")
+# use_repo(llvm, "llvm_toolchain")
+#
+# register_toolchains("@llvm_toolchain//:all")
 ############################
 ```
