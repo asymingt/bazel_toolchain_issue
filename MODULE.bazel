@@ -1,0 +1,25 @@
+module(
+    name = "toolchain_issue",
+    version = "0.0.1",
+    compatibility_level = 0,
+)
+
+bazel_dep(name = "toolchains_llvm_bootstrapped", version = "0.5.5")
+bazel_dep(name = "mimick", version = "0.9.0")
+local_path_override(
+    module_name = "mimick",
+    path = "./submodules/mimick",
+)
+
+toolchain = use_extension("@toolchains_llvm_bootstrapped//extensions:toolchain.bzl", "toolchain")
+toolchain.exec(
+    arch = "x86_64",
+    os = "linux",
+)
+toolchain.target(
+    arch = "x86_64",
+    os = "linux",
+)
+use_repo(toolchain, "llvm_toolchains")
+
+register_toolchains("@llvm_toolchains//:all")
